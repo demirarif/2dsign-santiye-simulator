@@ -1,0 +1,35 @@
+from pathlib import Path
+
+root = Path(__file__).resolve().parent
+viz = Path(r'C:\Users\arifdemir\.codex\visualizations\2026\11\02\01a19bd1-93aa-7fd0-bbae-c18ed66d5833')
+previous = (viz / 'maket-usta-360.html').read_text(encoding='utf-8')
+builder = (root / 'create-worker.js').read_text(encoding='utf-8')
+start = previous.index('function createMaketWorker(THREE)')
+end = previous.index('(function(){', start)
+source = previous[:start] + builder + previous[end:]
+source = source.replace('maket-usta-viewer', 'bodur-usta-viewer')
+source = source.replace("character:'maket-usta'", "character:'bodur-usta-v2'")
+source = source.replace("const r=4.1/magnify", "const r=3.65/magnify")
+source = source.replace('1.04+Math.sin(pitch)*r', '.84+Math.sin(pitch)*r')
+source = source.replace('camera.lookAt(0,1.025,0)', 'camera.lookAt(0,.84,0)')
+source = source.replace('toneMappingExposure=1.18', 'toneMappingExposure=1.17')
+source = source.replace('0xfff5e8,0x718196,2.25', '0xfff5e7,0x82909c,1.7')
+source = source.replace('0xfff1dc,3.8', '0xffefd7,3.0')
+source = source.replace('key.shadow.normalBias=.025', 'key.shadow.normalBias=.009')
+source = source.replace('0xc5d9f1,1.3', '0xc9def4,1.2')
+source = source.replace("fill.position.set(4,3,-4);scene.add(fill);", "fill.position.set(4,3,-4);scene.add(fill);const rim=new THREE.DirectionalLight(0xffead3,1.4);rim.position.set(-3,4,-4);scene.add(rim);")
+source = source.replace('stageFloor.position.y=.021', 'stageFloor.position.y=-.0055')
+source = source.replace('new THREE.CylinderGeometry(.64,.65,.022,64)', 'new THREE.CylinderGeometry(.60,.61,.022,64)')
+source = source.replace('Sarı baretli, turuncu yelekli maket usta.', 'Sarı baretli, bıyıklı, kısa ve sağlam yapılı usta.')
+source = source.replace('Döndürülebilir 3D maket usta', 'Döndürülebilir 3D bodur usta')
+source = source.replace("const initial=window.openai?.widgetState?.privateContent||{};", "const initial=window.openai?.widgetState?.modelContent?.character==='bodur-usta-v2'?(window.openai.widgetState.privateContent||{}):{};")
+if len(source.encode('utf-8')) >= 1_000_000:
+    raise RuntimeError('Preview too large')
+(viz / 'bodur-usta-360.html').write_text(source, encoding='utf-8', newline='\n')
+old_root = root.parent / 'worker-3d-v1'
+exporter = (old_root / 'build-model.cjs').read_text(encoding='utf-8')
+exporter = exporter.replace('maket-usta-360.html', 'bodur-usta-360.html')
+exporter = exporter.replace('maket-usta.glb', 'bodur-usta.glb').replace('maket-usta.three.json', 'bodur-usta.three.json')
+exporter = exporter.replace("path.join(__dirname,'three-0.160.1.min.js')", "path.join(__dirname,'../worker-3d-v1/three-0.160.1.min.js')")
+(root / 'build-model.cjs').write_text(exporter, encoding='utf-8', newline='\n')
+print(f'Preview prepared: {len(source.encode("utf-8"))} bytes')

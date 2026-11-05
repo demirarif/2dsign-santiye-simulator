@@ -1,0 +1,30 @@
+<div id="worker-walking-viewer">
+  <div class="walk-stage" role="img" aria-label="45 derece yukarı çapraz açıdan küçük bir alanda kendi kendine yürüyen inşaat ustası">
+    <canvas class="walk-canvas cursor-interaction" aria-label="Ustanın yürüyüşü; sürükleyerek bakış açısını değiştirebilirsiniz"></canvas>
+    <span class="walk-loading" role="status" aria-live="polite">Usta hazırlanıyor…</span>
+  </div>
+  <div class="viz-row">
+    <button class="btn walk-toggle" type="button" aria-pressed="true">Durdur</button>
+    <span class="walk-status" role="status" aria-live="polite">Yürüyor</span>
+  </div>
+  <div class="viz-controls">
+    <label class="form-label">Bakış açısı <output class="walk-angle tabular-nums">45°</output>
+      <input class="form-range walk-rotation" type="range" min="-180" max="180" step="1" value="45" aria-label="Çalışma alanının etrafında dön">
+    </label>
+    <label class="form-label">Yakınlık <output class="walk-zoom-value tabular-nums">100%</output>
+      <input class="form-range walk-zoom" type="range" min="75" max="180" step="1" value="100" aria-label="Ustaya yakınlaş">
+    </label>
+  </div>
+</div>
+<style>
+#worker-walking-viewer{width:100%;color:var(--foreground)}
+#worker-walking-viewer .walk-stage{position:relative;width:100%;height:520px;overflow:hidden}
+#worker-walking-viewer .walk-canvas{display:block;width:100%;height:100%;touch-action:none}
+#worker-walking-viewer .walk-loading{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--foreground)}
+#worker-walking-viewer>.viz-row,#worker-walking-viewer>.viz-controls{margin-top:calc(var(--font-size-base)*.5)}
+@media(max-width:420px){#worker-walking-viewer .walk-stage{height:400px}}
+</style>
+<script data-three-runtime></script>
+<script data-worker-model></script>
+<script data-worker-animator></script>
+<script data-walk-controller></script>

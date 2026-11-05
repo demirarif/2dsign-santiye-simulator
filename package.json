@@ -1,0 +1,14 @@
+{
+  "name": "arabica-santiye-simulator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Takvim, ekip ve 3D sunumu ayrı tutan şantiye simülasyonu temeli.",
+  "engines": { "node": ">=22.14.0" },
+  "scripts": {
+    "demo": "node scripts/inspect-pilot.js",
+    "preview:build": "python scripts/build-pilot-preview.py",
+    "test": "node --experimental-test-isolation=none --test tests/*.test.js",
+    "check": "node --experimental-vm-modules scripts/check-source.js"
+  }
+}

@@ -1,0 +1,6 @@
+# Bütün metin dosyaları depoda ve çalışma klasöründe LF satır sonuyla tutulur.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.glb binary
