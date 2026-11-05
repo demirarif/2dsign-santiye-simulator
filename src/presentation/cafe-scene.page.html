@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Arabica Coffee House · Şantiye simülatörü</title>
+<style>
+/*
+ * Bağımsız sayfa kabuğu. Sahne parçası (cafe-scene.fragment.html) Codex sohbetinde
+ * ortamın sağladığı tasarım değişkenlerini ve yardımcı sınıfları kullanır; aynı adların
+ * bağımsız karşılıkları burada tanımlanır. Sahne renkleri prefers-color-scheme'e göre
+ * değiştiğinden sayfa da yalnızca bu sinyali izler.
+ */
+:root {
+  --background: #eeeae0;
+  --surface: #faf8f3;
+  --surface-deep: #e2ddd0;
+  --foreground: #23261f;
+  --foreground-muted: #62685b;
+  --border: rgb(35 38 31 / 0.13);
+  --accent: #456456;
+  --focus: #2f6f57;
+  --font-size-base: 15px;
+  --radius: 16px;
+  --shadow: 0 1px 2px rgb(35 38 31 / 0.06), 0 22px 44px -28px rgb(35 38 31 / 0.38);
+  --stage-height: clamp(420px, 70vh, 820px);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #131613;
+    --surface: #222822;
+    --surface-deep: #111411;
+    --foreground: #e8e6de;
+    --foreground-muted: #a3a99a;
+    --border: rgb(232 230 222 / 0.12);
+    --accent: #8db8a3;
+    --focus: #a9d3bd;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 22px 44px -28px rgb(0 0 0 / 0.75);
+    color-scheme: dark;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font: 400 var(--font-size-base)/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.shell { max-width: 1440px; margin: 0 auto; padding: 28px 24px 40px; }
+.shell-eyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foreground-muted);
+}
+.shell-hint { margin: 18px 0 0; font-size: 13px; color: var(--foreground-muted); }
+
+/* Codex ortamındaki yardımcı sınıfların karşılıkları */
+.text-small { font-size: 13px; }
+.text-muted { color: var(--foreground-muted); }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+.form-label { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; }
+.form-label output { min-width: 4.5ch; color: var(--foreground-muted); font-weight: 400; }
+.form-range { width: 168px; max-width: 100%; margin: 0; accent-color: var(--accent); }
+.form-select {
+  font: inherit;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+.form-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.form-check-input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Sahne parçasının kendi kurallarından daha özgül: bağımsız sayfada sahne büyür. */
+:root #arabica-cafe-scene .cafe-heading { padding-right: 0; gap: 12px; }
+:root #arabica-cafe-scene .cafe-title { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+:root #arabica-cafe-scene .cafe-body { margin-top: 14px; gap: 16px; }
+@media (min-width: 900px) {
+  :root #arabica-cafe-scene .cafe-body { grid-template-columns: minmax(0, 1fr) 340px; }
+}
+:root #arabica-cafe-scene .cafe-stage {
+  height: var(--stage-height);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: radial-gradient(120% 90% at 50% 38%, var(--surface) 0%, var(--surface-deep) 100%);
+  box-shadow: var(--shadow);
+}
+:root #arabica-cafe-scene .cafe-panel {
+  max-height: var(--stage-height);
+  border-color: var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+:root #arabica-cafe-scene .cafe-panel .text-muted,
+:root #arabica-cafe-scene .cafe-panel dt,
+:root #arabica-cafe-scene .cafe-task-meta { color: var(--foreground-muted); opacity: 1; }
+:root #arabica-cafe-scene > .viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-top: 16px;
+}
+
+@media (max-width: 480px) {
+  .shell { padding: 20px 16px 32px; }
+  /* 45° bakışta kafe yatay bir baklava; dar ekranda yüksek sahne boş kalır. */
+  :root { --stage-height: 340px; }
+  :root #arabica-cafe-scene .cafe-panel { max-height: none; }
+  .form-label { width: 100%; }
+  /* Kaydırıcılar alt alta geldiğinde etiket uzunluğundan bağımsız aynı hizadan başlasın. */
+  .form-label:has(.form-range) { display: grid; grid-template-columns: 6.6em 4.5ch minmax(0, 1fr); }
+  .form-label:has(.form-select) { display: grid; grid-template-columns: 6.6em minmax(0, 1fr); }
+  .form-range, .form-select { width: 100%; min-width: 0; }
+}
+</style>
+</head>
+<body>
+<main class="shell">
+<p class="shell-eyebrow">Şantiye simülatörü · önizleme</p>
+<!-- cafe-scene -->
+<p class="shell-hint">Sürükleyerek veya ok tuşlarıyla döndürün; tekerlek ya da artı/eksi ile yakınlaşın. Bir alana tıklayınca o alana odaklanır, Esc tüm kafeye döner. Ölçüler paftadan yaklaşık; mobilyalar referans yerleşimdir.</p>
+</main>
+</body>
+</html>

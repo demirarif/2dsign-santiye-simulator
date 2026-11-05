@@ -19,7 +19,7 @@ flowchart LR
   Motion[Hareket klipleri ve ekipman] --> Scene
 ```
 
-Takvim → anlık durum akışı çalışır. Tek alanın 3D inceleme sahnesi de çalışır; henüz takvim anlık durumuna bağlı değildir. Rota ve tam iş takvimi arayüzü sözleşme/tasarım düzeyindedir.
+Takvim → anlık durum akışı çalışır. Kafenin tamamının 3D inceleme sahnesi de çalışır; henüz takvim anlık durumuna bağlı değildir. Referans programın 52 işi veri olarak hazırdır (`src/data/reference-program.js`). Rota ve tam iş takvimi arayüzü sözleşme/tasarım düzeyindedir.
 
 ## Katmanlar
 
@@ -89,4 +89,15 @@ Mevcut karakter referansı yaklaşık 38.536 üçgen, 122 mesh ve 22 materyaldir
 
 Bu aşamadaki testler görsel kaliteyi, yol bulmayı, iskele geometrisini veya tarayıcı performansını doğrulamaz. Bunlar kendi adımlarında gerçek sahnede değerlendirilecek.
 
-Adım 1 ek doğrulaması: iskele aşamalarının geri dönüşü, oda sınırları, açık giriş ve kaynak temizliği için model testleri eklendi. Önizleme tarayıcıda ayrıca incelendi; otomatik model testleri görsel kalite veya gerçek fizik testi sayılmaz.
+Adım 1 doğrulaması:
+- Yerleşim verisi: alanlar çakışmıyor, mobilya zeminde, dış duvarlar çevreyi kapatıyor, M2 ≈ 108 m².
+- Duvar kesitinin geri dönüşü; giriş ve kapı açıklıklarının boş kalması.
+- Alan seçimi, renk açma/kapama ve kaynak temizliği.
+- Referans programın sitedeki saatleri.
+
+Önizleme masaüstü, koyu tema ve 360 px genişlikte ekran görüntüsüyle incelendi. Otomatik testler görsel kalite veya gerçek fizik testi sayılmaz.
+
+## Referans veriler ve yerleşim
+
+- `src/data/cafe-layout.js` kafenin yaklaşık geometrisini pafta pikseli olarak tutar. `planToWorld` ile metreye çevirir; ölçek 1 px ≈ 0,057 m. AutoCAD ölçüleri geldiğinde sahne kodu değişmez, yalnızca bu veri değişir.
+- `src/data/reference-program.js` referans sitedeki alanları, 52 işi ve sitenin zamanlama kuralını taşır. Programı simülasyon çekirdeğine (usta, kaynak, alt adım) aktarmak ayrı bir adımdır. Aktarımda alan kimlikleri ve iş kimlikleri korunur.

@@ -6,8 +6,10 @@
   "description": "Takvim, ekip ve 3D sunumu ayrı tutan şantiye simülasyonu temeli.",
   "engines": { "node": ">=22.14.0" },
   "scripts": {
+    "start": "node scripts/serve-preview.js",
     "demo": "node scripts/inspect-pilot.js",
-    "preview:build": "python scripts/build-pilot-preview.py",
+    "preview:build": "node scripts/build-preview.js",
+    "preview:capture": "node scripts/capture-preview.js",
     "test": "node --experimental-test-isolation=none --test tests/*.test.js",
     "check": "node --experimental-vm-modules scripts/check-source.js"
   }

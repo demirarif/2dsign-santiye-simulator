@@ -5,3 +5,6 @@ coverage/
 .env
 .env.*
 !.env.example
+
+# Telif notlu pafta ve benzeri yerel referanslar (depo herkese açık)
+docs/referans/yerel/
