@@ -1,0 +1,77 @@
+<div id="arabica-cafe-scene">
+  <div class="cafe-heading">
+    <span class="cafe-title">Arabica Coffee House · CEPA</span>
+    <span class="text-small text-muted">Yerleşim · paftadan yaklaşık ölçü</span>
+  </div>
+  <div class="cafe-body">
+    <div class="cafe-stage">
+      <canvas class="cafe-canvas cursor-interaction" tabindex="0" role="img" aria-label="Kafenin çatısı açık 3D yerleşimi: M1–M9 alanları, teras, banko, mutfak ve M2'de iskele ile usta. Sürükleyerek veya ok tuşlarıyla döndürün, tekerlek ya da artı/eksi ile yakınlaşın, bir alana tıklayarak odaklanın; Esc tüm kafeye döner."></canvas>
+      <span class="cafe-loading" role="status" aria-live="polite">Kafe hazırlanıyor…</span>
+    </div>
+    <aside class="cafe-panel" aria-live="polite" aria-label="Alan bilgisi"></aside>
+  </div>
+  <div class="viz-controls">
+    <label class="form-label">Bakış açısı <output class="cafe-yaw-value tabular-nums">45°</output>
+      <input type="range" class="form-range cafe-yaw" min="-180" max="180" step="1" value="45" aria-label="Kafeyi döndür">
+    </label>
+    <label class="form-label">Yakınlık <output class="cafe-zoom-value tabular-nums">100%</output>
+      <input type="range" class="form-range cafe-zoom" min="75" max="300" step="1" value="100" aria-label="Yakınlaş">
+    </label>
+  </div>
+  <div class="viz-controls">
+    <label class="form-label">Alan
+      <select class="form-select cafe-zone" aria-label="Odaklanılacak alan"><option value="">Tüm kafe</option></select>
+    </label>
+    <label class="form-label">M2 iskelesi
+      <select class="form-select cafe-scaffold" aria-label="M2 iskele görünümü">
+        <option value="ready">Kurulu</option>
+        <option value="platform-set">Platform</option>
+        <option value="braced">Çerçeve ve çaprazlar</option>
+        <option value="frames-set">Çerçeveler</option>
+        <option value="base-set">Ayaklar</option>
+        <option value="staged">Parçalar</option>
+      </select>
+    </label>
+    <label class="form-check">
+      <input type="checkbox" class="form-check-input cafe-tint" checked>
+      <span class="form-check-label">Alan renkleri</span>
+    </label>
+    <label class="form-check">
+      <input type="checkbox" class="form-check-input cafe-worker" checked>
+      <span class="form-check-label">Ölçek için usta</span>
+    </label>
+  </div>
+</div>
+<style>
+#arabica-cafe-scene{width:100%;color:var(--foreground)}
+#arabica-cafe-scene .cafe-heading{display:flex;flex-wrap:wrap;gap:calc(var(--font-size-base)*.5);align-items:baseline;padding-right:100px}
+#arabica-cafe-scene .cafe-body{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:8px}
+@media(min-width:900px){#arabica-cafe-scene .cafe-body{grid-template-columns:minmax(0,1fr) 300px}}
+#arabica-cafe-scene .cafe-stage{position:relative;width:100%;height:560px;overflow:hidden}
+#arabica-cafe-scene .cafe-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;outline-offset:-3px}
+#arabica-cafe-scene .cafe-canvas.is-pointing{cursor:pointer}
+#arabica-cafe-scene .cafe-canvas.is-dragging{cursor:grabbing}
+#arabica-cafe-scene .cafe-loading{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center}
+#arabica-cafe-scene .cafe-panel{display:flex;flex-direction:column;gap:10px;min-width:0;max-height:560px;overflow:auto;padding:16px;border-radius:14px;border:1px solid color-mix(in srgb,currentColor 14%,transparent)}
+#arabica-cafe-scene .cafe-panel h2{margin:0;font-size:18px;line-height:1.3}
+#arabica-cafe-scene .cafe-panel h3{margin:6px 0 0;font-size:13px;font-weight:600;letter-spacing:.02em;opacity:.75}
+#arabica-cafe-scene .cafe-panel p,#arabica-cafe-scene .cafe-panel dd{margin:0}
+#arabica-cafe-scene .cafe-panel dl{display:grid;gap:4px;margin:0}
+#arabica-cafe-scene .cafe-panel dt{margin-top:4px;font-size:12px;opacity:.65}
+#arabica-cafe-scene .cafe-eyebrow{font-size:13px;font-weight:600;letter-spacing:.02em;opacity:.7}
+#arabica-cafe-scene .cafe-zone-list,#arabica-cafe-scene .cafe-tasks{list-style:none;margin:0;padding:0;display:grid}
+#arabica-cafe-scene .cafe-zone-list{gap:2px}
+#arabica-cafe-scene .cafe-zone-list button{width:100%;display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 8px;border:0;border-radius:8px;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+#arabica-cafe-scene .cafe-zone-list button:hover{background:color-mix(in srgb,currentColor 8%,transparent)}
+#arabica-cafe-scene .cafe-swatch{width:12px;height:12px;border-radius:3px;background:var(--zone)}
+#arabica-cafe-scene .cafe-count{font-size:12px;opacity:.65}
+#arabica-cafe-scene .cafe-tasks{gap:10px}
+#arabica-cafe-scene .cafe-tasks li{display:grid;gap:2px;padding-left:10px;border-left:3px solid var(--zone)}
+#arabica-cafe-scene .cafe-task-time{font-size:12px;font-variant-numeric:tabular-nums;opacity:.75}
+#arabica-cafe-scene .cafe-task-meta{font-size:12px;opacity:.65}
+#arabica-cafe-scene .cafe-back{align-self:flex-start;padding:4px 10px;border:1px solid color-mix(in srgb,currentColor 18%,transparent);border-radius:999px;background:none;color:inherit;font:inherit;font-size:13px;cursor:pointer}
+#arabica-cafe-scene>.viz-controls{margin-top:calc(var(--font-size-base)*.5)}
+@media(max-width:480px){#arabica-cafe-scene .cafe-stage{height:340px}#arabica-cafe-scene .cafe-panel{max-height:none}}
+</style>
+<script data-three-runtime></script>
+<script data-scene-bundle></script>

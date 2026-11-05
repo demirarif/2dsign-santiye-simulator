@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>M2 çalışma alanı · Şantiye simülatörü</title>
+<title>Arabica Coffee House · Şantiye simülatörü</title>
 <style>
 /*
- * Bağımsız sayfa kabuğu. Sahne parçası (pilot-scene.fragment.html) Codex sohbetinde
- * ortamın sağladığı tasarım değişkenlerini ve yardımcı sınıfları kullanır; aynı
- * adların bağımsız karşılıkları burada tanımlanır. Sahne renkleri prefers-color-scheme'e
- * göre değiştiğinden sayfa da yalnızca bu sinyali izler.
+ * Bağımsız sayfa kabuğu. Sahne parçası (cafe-scene.fragment.html) Codex sohbetinde
+ * ortamın sağladığı tasarım değişkenlerini ve yardımcı sınıfları kullanır; aynı adların
+ * bağımsız karşılıkları burada tanımlanır. Sahne renkleri prefers-color-scheme'e göre
+ * değiştiğinden sayfa da yalnızca bu sinyali izler.
  */
 :root {
   --background: #eeeae0;
@@ -24,6 +24,7 @@
   --font-size-base: 15px;
   --radius: 16px;
   --shadow: 0 1px 2px rgb(35 38 31 / 0.06), 0 22px 44px -28px rgb(35 38 31 / 0.38);
+  --stage-height: clamp(420px, 70vh, 820px);
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -49,7 +50,7 @@ body {
   color: var(--foreground);
   font: 400 var(--font-size-base)/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
-.shell { max-width: 1240px; margin: 0 auto; padding: 28px 24px 40px; }
+.shell { max-width: 1440px; margin: 0 auto; padding: 28px 24px 40px; }
 .shell-eyebrow {
   margin: 0 0 6px;
   font-size: 12px;
@@ -80,43 +81,55 @@ body {
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* Sahne parçasının kendi kurallarından daha özgül: bağımsız sayfada sahne büyür. */
-:root #arabica-pilot-scene .pilot-heading { padding-right: 0; gap: 12px; margin-bottom: 14px; }
-:root #arabica-pilot-scene .pilot-heading > span:first-child {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+:root #arabica-cafe-scene .cafe-heading { padding-right: 0; gap: 12px; }
+:root #arabica-cafe-scene .cafe-title { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+:root #arabica-cafe-scene .cafe-body { margin-top: 14px; gap: 16px; }
+@media (min-width: 900px) {
+  :root #arabica-cafe-scene .cafe-body { grid-template-columns: minmax(0, 1fr) 340px; }
 }
-:root #arabica-pilot-scene .pilot-stage {
-  height: clamp(380px, 68vh, 780px);
+:root #arabica-cafe-scene .cafe-stage {
+  height: var(--stage-height);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: radial-gradient(120% 90% at 50% 38%, var(--surface) 0%, var(--surface-deep) 100%);
   box-shadow: var(--shadow);
 }
-:root #arabica-pilot-scene > .viz-controls {
+:root #arabica-cafe-scene .cafe-panel {
+  max-height: var(--stage-height);
+  border-color: var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+:root #arabica-cafe-scene .cafe-panel .text-muted,
+:root #arabica-cafe-scene .cafe-panel dt,
+:root #arabica-cafe-scene .cafe-task-meta { color: var(--foreground-muted); opacity: 1; }
+:root #arabica-cafe-scene > .viz-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 28px;
   margin-top: 16px;
 }
-:root #arabica-pilot-scene > .pilot-detail { margin-top: 14px; color: var(--foreground-muted); }
 
 @media (max-width: 480px) {
   .shell { padding: 20px 16px 32px; }
-  :root #arabica-pilot-scene .pilot-stage { height: 420px; }
+  /* 45° bakışta kafe yatay bir baklava; dar ekranda yüksek sahne boş kalır. */
+  :root { --stage-height: 340px; }
+  :root #arabica-cafe-scene .cafe-panel { max-height: none; }
   .form-label { width: 100%; }
   /* Kaydırıcılar alt alta geldiğinde etiket uzunluğundan bağımsız aynı hizadan başlasın. */
   .form-label:has(.form-range) { display: grid; grid-template-columns: 6.6em 4.5ch minmax(0, 1fr); }
-  .form-range { width: 100%; }
+  .form-label:has(.form-select) { display: grid; grid-template-columns: 6.6em minmax(0, 1fr); }
+  .form-range, .form-select { width: 100%; min-width: 0; }
 }
 </style>
 </head>
 <body>
 <main class="shell">
 <p class="shell-eyebrow">Şantiye simülatörü · önizleme</p>
-<!-- pilot-scene -->
-<p class="shell-hint">Sürükleyerek döndürün; yakınlaşmak için fare tekerleğini veya kaydırıcıyı kullanın. Ölçüler varsayımdır, gerçek plan geldiğinde güncellenecek.</p>
+<!-- cafe-scene -->
+<p class="shell-hint">Sürükleyerek veya ok tuşlarıyla döndürün; tekerlek ya da artı/eksi ile yakınlaşın. Bir alana tıklayınca o alana odaklanır, Esc tüm kafeye döner. Ölçüler paftadan yaklaşık; mobilyalar referans yerleşimdir.</p>
 </main>
 </body>
 </html>

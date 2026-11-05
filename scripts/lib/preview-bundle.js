@@ -20,11 +20,11 @@ export const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
 /** Prototipten gelen son UMD sürümü; global `THREE` tanımlar. */
 export const threeRuntimeFile = 'output/worker-3d-v1/three-0.160.1.min.js';
 
-const sceneEntry = 'src/presentation/pilot-scene.js';
-const fragmentTemplate = 'src/presentation/pilot-scene.fragment.html';
-const pageTemplate = 'src/presentation/pilot-scene.page.html';
-const pageMarker = '<!-- pilot-scene -->';
-const sceneStart = { exportName: 'mountPilotScene', args: "document.getElementById('arabica-pilot-scene'), THREE" };
+const sceneEntry = 'src/presentation/cafe-scene.js';
+const fragmentTemplate = 'src/presentation/cafe-scene.fragment.html';
+const pageTemplate = 'src/presentation/cafe-scene.page.html';
+const pageMarker = '<!-- cafe-scene -->';
+const sceneStart = { exportName: 'mountCafeScene', args: "document.getElementById('arabica-cafe-scene'), THREE" };
 
 const IMPORT_LINE = /^import \{([^}\n]*)\} from (['"])([^'"\n]+)\2;[ \t]*$/gm;
 const EXPORT_DECLARATION = /^export (async function\*?|function\*?|const|let|class) ([A-Za-z_$][\w$]*)/gm;
@@ -161,7 +161,7 @@ function fillScript(template, name, content) {
 }
 
 /**
- * M2 önizlemesini üretir.
+ * Kafe önizlemesini üretir.
  * - `page`: tarayıcıda doğrudan açılan, ağ gerektirmeyen tek dosyalık sayfa.
  * - `fragment`: Codex sohbetinin önizleme alanına konan, belge iskeleti olmayan parça.
  * @param {{ mode?: 'page'|'fragment', rootDir?: string }} [options]
@@ -172,7 +172,7 @@ export function buildPreview({ mode = 'page', rootDir = projectRoot } = {}) {
   const bundle = createBundle({ rootDir, entry: sceneEntry, start: sceneStart });
   let fragment = readText(path.join(rootDir, fragmentTemplate));
   fragment = fillScript(fragment, 'three-runtime', readText(path.join(rootDir, threeRuntimeFile)));
-  fragment = fillScript(fragment, 'pilot-bundle', bundle);
+  fragment = fillScript(fragment, 'scene-bundle', bundle);
   if (mode === 'fragment') {
     const bytes = Buffer.byteLength(fragment, 'utf8');
     if (bytes >= 1_000_000) throw new Error(`Codex önizlemesi 1 MB sınırını aşıyor: ${bytes} bayt.`);

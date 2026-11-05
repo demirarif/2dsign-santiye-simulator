@@ -5,10 +5,11 @@ import { buildPreview, projectRoot } from './lib/preview-bundle.js';
 
 /**
  * Kullanım:
- *   npm run preview:build                         → dist/m2-calisma-alani.html
+ *   npm run preview:build                         → dist/index.html
  *   npm run preview:build -- --out <dosya>        → bağımsız sayfa başka konuma
  *   npm run preview:build -- --fragment [--out <dosya>]
  *                                                 → Codex sohbeti için belge iskeletsiz parça
+ * Canlı yenilenen lokal sunucu için: npm start
  */
 const { values } = parseArgs({
   options: {
@@ -18,7 +19,7 @@ const { values } = parseArgs({
 });
 
 const mode = values.fragment ? 'fragment' : 'page';
-const defaultName = mode === 'page' ? 'm2-calisma-alani.html' : 'm2-calisma-alani.fragment.html';
+const defaultName = mode === 'page' ? 'index.html' : 'kafe.fragment.html';
 const target = path.resolve(values.out ?? path.join(projectRoot, 'dist', defaultName));
 
 try {

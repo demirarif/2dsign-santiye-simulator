@@ -23,8 +23,8 @@ import { projectRoot } from './lib/preview-bundle.js';
  */
 const { values } = parseArgs({
   options: {
-    html: { type: 'string', default: path.join(projectRoot, 'dist', 'm2-calisma-alani.html') },
-    out: { type: 'string', default: path.join(projectRoot, 'dist', 'captures', 'm2.png') },
+    html: { type: 'string', default: path.join(projectRoot, 'dist', 'index.html') },
+    out: { type: 'string', default: path.join(projectRoot, 'dist', 'captures', 'kafe.png') },
     width: { type: 'string', default: '1280' },
     height: { type: 'string', default: '900' },
     scale: { type: 'string', default: '1' },

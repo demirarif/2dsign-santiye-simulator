@@ -30,13 +30,13 @@ function withFixture(files, run) {
 test('bağımsız önizleme tek dosyalık, dış kaynaksız ve ayrıştırılabilir bir sayfadır', () => {
   const page = buildPreview({ mode: 'page' });
   assert.match(page, /^<!doctype html>/);
-  assert.equal(page.match(/<canvas class="pilot-canvas/g)?.length, 1);
+  assert.equal(page.match(/<canvas class="cafe-canvas/g)?.length, 1);
   assert.doesNotMatch(page, /<script[^>]*\ssrc=|<link[^>]*\shref=/i, 'Sayfa ağdan kaynak yüklememeli.');
-  assert.doesNotMatch(page, /<!-- pilot-scene -->/, 'Yer tutucu doldurulmalı.');
+  assert.doesNotMatch(page, /<!-- cafe-scene -->/, 'Yer tutucu doldurulmalı.');
   const scripts = inlineScripts(page);
   assert.equal(scripts.length, 2, 'Three.js ve uygulama paketi satır içinde olmalı.');
   for (const source of scripts) assert.doesNotThrow(() => new vm.Script(source));
-  assert.match(scripts[1], /\.mountPilotScene\(document\.getElementById\('arabica-pilot-scene'\), THREE\);\n\}\)\(\);$/);
+  assert.match(scripts[1], /\.mountCafeScene\(document\.getElementById\('arabica-cafe-scene'\), THREE\);\n\}\)\(\);$/);
 });
 
 test('Codex parçası belge iskeleti taşımaz ve 1 MB sınırının altındadır', () => {
