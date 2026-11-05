@@ -8,6 +8,8 @@ Adım 0 tamamlandı. Adım 1'in **örnek ölçülü önizlemesi hazır**: zemin,
 
 Doğrulama: 41 otomatik test geçti; tarayıcıda sahnenin açılması, döndürme/yakınlaşma ve parça aşamaları kontrol edildi. 360 px genişlikte içerik yatay taşmıyor. Sonraki adım 2: tek parça taşıma hareketi.
 
+Çalışma ortamı (5 Kasım 2026): Proje GitHub deposuna alındı. Önizleme artık tarayıcıda doğrudan açılan tek dosyalık bir sayfa (`npm run preview:build`). Ekran görüntüleri `npm run preview:capture` ile cihaz öykünmesi altında otomatik alınıyor; sayfa hatası yakalanırsa komut başarısız oluyor.
+
 | Adım | Üreteceğimiz sonuç | Birlikte belirlenecek nokta | Tamam sayma ölçütü |
 | --- | --- | --- | --- |
 | 0 — Temel | Veri sözleşmeleri, takvim, örnek iş dizisi, model adaptörü | Bu dokümandaki sınırlar | Çekirdek testler ve örnek program çalışıyor |
@@ -31,6 +33,19 @@ Doğrulama: 41 otomatik test geçti; tarayıcıda sahnenin açılması, döndür
 - İleride projeyi kaydetme/paylaşma gereksinimi; buna göre kalıcı kayıt ve yayınlama.
 
 Bunları sırayla ele alacağız; kod iskeletini kullanmak için tümüne bugün cevap vermek gerekmiyor.
+
+## Verilen kararlar
+
+Geçici kararlar gerçek veri gelince yeniden değerlendirilir.
+
+| Tarih | Karar | Gerekçe |
+| --- | --- | --- |
+| 2026-11-05 | Adım 2–3 boyunca varsayılan ölçülerle devam: 8,4 × 6,6 m oda; 2,2 × 1,35 m tekerlekli iskele, platform 1,22 m. *Geçici.* | Gerçek plan gelince yalnızca `src/data/pilot-layout.js` değişir; hareket ve model kodu etkilenmez. |
+| 2026-11-05 | İlk taşınacak parça iskelenin bir yan çerçevesi. | Adım 3'teki kurulumun ilk parçası; tutma noktaları ve taşıma pozu doğrudan yeniden kullanılır. |
+| 2026-11-05 | Çekiç kemer askısında durur; yalnızca çakma/sabitleme hareketlerinde ele alınır. | Taşıma ve iki elle yapılan işlerde eller boş olmalı; ustanın onaylı görünümü korunur. |
+| 2026-11-05 | Paketli iskele parçaları malzeme köşesinde başlar; "taşındı" durumu çalışma alanında görünür. | Takvimdeki "parçaları çalışma alanına taşı" adımı 3D'de gerçek bir yer değişikliği olarak okunmalı. |
+| 2026-11-05 | Adım 2'de hareket dizisi kendi %0–100 ilerleme kaydırıcısıyla incelenir; takvim zamanına Adım 5'te bağlanır. | Hareket kalitesi, takvim arayüzünden bağımsız doğrulanabilmeli. |
+| 2026-11-05 | Her adım ayrı dal ve pull request ile ilerler; PR açıklaması o adımın brief'idir. | Her molada gözden geçirilebilen ve gerekirse geri alınabilen bir kayıt kalır. |
 
 ## Kaynaktaki çalışma notları
 

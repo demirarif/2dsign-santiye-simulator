@@ -6,20 +6,33 @@ Onaylı görsel yön: bodur maket ustalar, çatısı açık mekân, yaklaşık 4
 
 ## Başlangıç
 
-Node.js 22.14 veya üzeri yeterli. Bu aşamada `npm install` gerekmez.
+Node.js 22.14 veya üzeri yeterli; `npm install` ya da Python gerekmez.
 
 ```sh
-npm run demo
-npm test
-npm run check
-npm run preview:build
+npm test                 # çekirdek, sahne ve paketleyici testleri
+npm run check            # sözdizimi kontrolü
+npm run demo             # örnek iş programını terminalde çalıştırır
+npm run preview:build    # 3D önizlemeyi dist/m2-calisma-alani.html olarak üretir
+npm run preview:capture  # önizlemenin ekran görüntüsünü alır (Chrome veya Edge gerekir)
 ```
 
 `demo`, iki usta ile iskele kurma → tavan tesisatı → iskele sökme örneğini terminalde çalıştırır. İleri gidip geri dönünce aynı nesne durumlarını üretir. Süreler örnektir; gerçek saha programı değildir. `check`, sözdizimini kontrol eder; tip kontrolü veya görsel doğrulama değildir.
 
 Testler, kısıtlı Windows ortamında alt süreç gerektirmemesi için Node'un `--experimental-test-isolation=none` seçeneğiyle tek süreçte çalışır. Sözdizimi kontrolü de `--experimental-vm-modules` ile dosyaları çalıştırmadan ayrıştırır. Bu seçenekler Node'un deneysel özellik uyarılarını gösterebilir.
 
-`preview:build` Python ile mevcut kaynaklardan konuşma içindeki 3D önizlemeyi yeniden üretir. Ağ erişimi veya paket kurulumu kullanmaz. Hedef dosya `m2-calisma-alani.html`; farklı konum için `python scripts/build-pilot-preview.py <hedef-dosya>` kullanılabilir.
+### Önizleme
+
+`preview:build`, ağ bağlantısı gerektirmeyen tek dosyalık bir sayfa üretir; `dist/m2-calisma-alani.html` dosyasına çift tıklamak yeterlidir. `dist/` git'e girmez. Codex sohbetinde göstermek için belge iskeleti olmayan parça da üretilebilir: `npm run preview:build -- --fragment --out <hedef-dosya>`.
+
+`preview:capture`, sayfayı başsız Chrome/Edge'de gerçek cihaz öykünmesiyle açar ve sahne hazır olunca görüntü alır. Sayfada hata yakalanırsa komut başarısız olur.
+
+```sh
+npm run preview:capture -- --out dist/captures/masaustu.png
+npm run preview:capture -- --dark --out dist/captures/koyu.png
+npm run preview:capture -- --width 360 --height 780 --scale 2 --full --out dist/captures/mobil.png
+```
+
+Tarayıcı bulunamazsa `CHROME_PATH` ortam değişkeniyle yolu verilebilir.
 
 ## Dosyalarda nereden başlayacağız?
 
@@ -36,11 +49,17 @@ Testler, kısıtlı Windows ortamında alt süreç gerektirmemesi için Node'un 
 | Onaylı model bağlantısı | `src/presentation/three/worker-view.js` | Mevcut bekleme/yürüme adaptörü |
 | Tek alan yerleşimi | `src/data/pilot-layout.js` | Örnek ölçüler, giriş, malzeme ve iskele konumları |
 | 3D önizleme | `src/presentation/pilot-scene.js` | 45° kamera, döndürme/yakınlaşma, otomatik duvar kesiti |
+| Önizleme sayfası | `src/presentation/pilot-scene.page.html` | Tarayıcı kabuğu; açık/koyu tema ve dar ekran düzeni |
+| Önizleme paketleme | `scripts/lib/preview-bundle.js` | Girişten bağımlılıkları izler; modülleri ayrı kapsamda tek sayfaya paketler |
 | Parçalı iskele | `src/presentation/three/scaffold-view.js` | Parçalar → kurulu model; işçi kurulum animasyonu henüz yok |
 | Sonraki 3D / arayüz işleri | `src/presentation/README.md` | Uygulama sırası ve eksik parçalar |
 | Gerçek rota / kapalı alanlar | `src/navigation/contracts.js` | Sözleşme hazır; rota motoru henüz yok |
 
 Kaynakta `BİRLİKTE-` araması, karar vereceğimiz yerleri gösterir. `output/` içindeki önceki görseller, GLB ve hareket denemeleri referans olarak korunmuştur.
+
+## Depo ve çalışma düzeni
+
+Depo: <https://github.com/demirarif/2dsign-santiye-simulator>. Her adım ayrı bir dalda geliştirilir ve pull request ile `main`'e alınır. PR açıklaması adımın özetini, nasıl doğrulandığını ve ekran görüntülerini içerir; görseller `docs/gorseller/` altında saklanır. Verilen kararlar `docs/roadmap.md` içindeki listede tutulur.
 
 ## Bu aşamanın sınırı
 
