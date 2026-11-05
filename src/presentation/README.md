@@ -1,6 +1,6 @@
 # 3D ve arayüz için uygulama notları
 
-Bu klasörde onaylı karakter adaptörü ve tek alanın WebGL inceleme sahnesi çalışır. `pilot-scene.js` sahneyi kurar; `pilot-scene.fragment.html` konuşma içindeki önizlemenin kontrollerini taşır. Takvim ile çalışma hareketleri bu ekrana henüz bağlanmadı.
+Bu klasörde onaylı karakter adaptörü ve tek alanın WebGL inceleme sahnesi çalışır. `pilot-scene.js` sahneyi kurar; `pilot-scene.fragment.html` sahnenin kontrollerini taşır. `pilot-scene.page.html` bu parçayı tarayıcıda doğrudan açılan bağımsız sayfaya yerleştirir; aynı parça Codex sohbetinin önizleme alanında da kullanılabilir. Takvim ile çalışma hareketleri bu ekrana henüz bağlanmadı.
 
 `three/room-view.js` örnek alanı veriden üretir, kamera tarafındaki duvarları keser. `three/scaffold-view.js` yedi iskele durumunu model parçalarına çevirir. Konumlar ve örnek ölçüler `src/data/pilot-layout.js` içindedir.
 
@@ -32,4 +32,4 @@ Bu adlarla boş dosyalar oluşturulmadı. İlgili aşamada somut sorumluluğu ol
 
 Three.js 0.160.1 prototip dosyası `output/worker-3d-v1/three-0.160.1.min.js` içindedir. Node adaptör testi bu yerel dosyayı kullanır. Kütüphaneyi 3D ekranın paketine bağlama ve sürüm yükseltme kararı sahne aşamasındadır.
 
-İlk önizleme aynı yerel Three.js sürümünü ve kaynak modülleri tek dosyada birleştirir. `scripts/build-pilot-preview.py` yalnızca kullandığımız named import/export biçimlerini destekler; dış kaynak yüklemez. Tam uygulama paketlemesine geçerken bu geçici önizleme aracı değiştirilebilir.
+Önizleme, aynı yerel Three.js sürümünü ve kaynak modülleri tek dosyada birleştirir. `scripts/lib/preview-bundle.js` girişten (`pilot-scene.js`) başlayarak göreli importları izler, sırayı kendisi çıkarır ve her modülü ayrı kapsamda çalıştırır. Yalnızca tek satırlık named import ile `export function|const|let|class` ve `export { … };` biçimlerini destekler; başka bir biçimde, olmayan bir adı içe aktarmada veya döngüde hata verir. Dış kaynak yüklemez. Tam uygulama paketlemesine geçerken bu araç değiştirilebilir.
